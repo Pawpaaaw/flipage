@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/camera"
+        android:icon="@drawable/ic_cam_black"
+        android:title="Add Image"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/edit"
+        android:title="Save"
+        app:showAsAction="always"/>
+</menu>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/girl" />
+
+    <LinearLayout
+        android:id="@+id/profile_ll"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.6"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamorphansbdit"
+            android:text="Jessica Parker"
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+        <TextView
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamorphansbdit"
+            android:text="Jessiieee"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamorphansbdit"
+            android:text="jesi@gmail.com"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamorphansbdit"
+            android:text="jesi@gmail.com"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/edit"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_edit"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+</RelativeLayout>
