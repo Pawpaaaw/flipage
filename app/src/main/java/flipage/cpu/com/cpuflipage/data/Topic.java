@@ -13,11 +13,28 @@ import java.util.List;
 public class Topic implements Parcelable{
     private List<Comment> comments;
     private String title;
+    private String description;
+    private User user;
 
 
     protected Topic(Parcel in) {
         comments = in.createTypedArrayList(Comment.CREATOR);
         title = in.readString();
+        description = in.readString();
+        user = in.readParcelable(User.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(comments);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeParcelable(user, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Topic> CREATOR = new Creator<Topic>() {
@@ -48,14 +65,19 @@ public class Topic implements Parcelable{
         this.title = title;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(comments);
-        dest.writeString(title);
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

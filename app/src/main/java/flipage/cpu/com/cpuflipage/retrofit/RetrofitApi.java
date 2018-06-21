@@ -7,6 +7,7 @@ import flipage.cpu.com.cpuflipage.data.Department;
 import flipage.cpu.com.cpuflipage.data.News;
 import flipage.cpu.com.cpuflipage.data.Topic;
 import flipage.cpu.com.cpuflipage.data.User;
+import flipage.cpu.com.cpuflipage.data.Post;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -29,12 +30,18 @@ public interface RetrofitApi {
     @POST("api/user/updateUser")
     Call<User> updateUser(@Body User user);
 
-    @POST("/api/topic/addComment")
-    Call<Topic> addComment(@Body Comment request);
-
     @POST("/api/news/save")
     Call<ResponseBody> createNews(@Body News news);
 
     @GET("/api/department/findAll")
     Call<List<Department>> getDepartments();
+
+    @POST("/api/post/save")
+    Call<ResponseBody> createPost(@Body Post post);
+
+    @POST("/api/post/fetchAllPost")
+    Call<List<Topic>> getTopics();
+
+    @POST("/api/topic/addComment")
+    Call<Topic> addComment(@Body Comment request);
 }

@@ -8,6 +8,7 @@ import flipage.cpu.com.cpuflipage.data.Department;
 import flipage.cpu.com.cpuflipage.data.News;
 import flipage.cpu.com.cpuflipage.data.Topic;
 import flipage.cpu.com.cpuflipage.data.User;
+import flipage.cpu.com.cpuflipage.data.Post;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,16 +39,24 @@ public class RetrofitImplementation {
         api.createNews(news).enqueue(getResponseBodyCallback(callback));
     }
 
-    public void addCommentToTopic(Comment comment, flipage.cpu.com.cpuflipage.utils.Callback callback){
-        api.addComment(comment).enqueue(getTopicCallback(callback));
-    }
-
     public void getNews(flipage.cpu.com.cpuflipage.utils.Callback callback) {
         api.getNews().enqueue(getNewsCallback(callback));
     }
 
     public void getDepartments(flipage.cpu.com.cpuflipage.utils.Callback callback) {
         api.getDepartments().enqueue(getDepartmentCallback(callback));
+    }
+
+    public void createPost(Post post, flipage.cpu.com.cpuflipage.utils.Callback callback){
+        api.createPost(post).enqueue(getResponseBodyCallback(callback));
+    }
+
+    public void addCommentToTopic(Comment comment, flipage.cpu.com.cpuflipage.utils.Callback callback){
+        api.addComment(comment).enqueue(getTopicCallback(callback));
+    }
+
+    public void getAllTopic(flipage.cpu.com.cpuflipage.utils.Callback callback){
+        api.getTopics().enqueue(getTopicsCallback(callback));
     }
 
 
@@ -92,6 +101,33 @@ public class RetrofitImplementation {
 
             @Override
             public void onFailure(Call<List<News>> call, Throwable t) {
+                String errorDesc;
+                if (t instanceof IOException) {
+                    errorDesc = String.valueOf(t.getCause());
+                } else if (t instanceof IllegalStateException) {
+                    errorDesc = String.valueOf(t.getCause());
+                } else {
+                    errorDesc = String.valueOf(t.getLocalizedMessage());
+                }
+                callback.onError(errorDesc);
+            }
+        };
+    }
+
+    private Callback<List<Topic>> getTopicsCallback(flipage.cpu.com.cpuflipage.utils.Callback callback) {
+        return new Callback<List<Topic>>() {
+            @Override
+            public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
+                if (callback != null)
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(response.body());
+                    } else {
+                        readError(response, callback);
+                    }
+            }
+
+            @Override
+            public void onFailure(Call<List<Topic>> call, Throwable t) {
                 String errorDesc;
                 if (t instanceof IOException) {
                     errorDesc = String.valueOf(t.getCause());
