@@ -7,18 +7,28 @@ import android.os.Parcelable;
  * Created by paolo on 5/1/18.
  */
 
-public class Comment implements Parcelable{
+public class Comment implements Parcelable {
 
-
-    private String message;
+    private long articleId;
     private User user;
-
-    public Comment() {
-    }
+    private String message;
 
     protected Comment(Parcel in) {
-        message = in.readString();
+        articleId = in.readLong();
         user = in.readParcelable(User.class.getClassLoader());
+        message = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(articleId);
+        dest.writeParcelable(user, flags);
+        dest.writeString(message);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Comment> CREATOR = new Creator<Comment>() {
@@ -33,12 +43,12 @@ public class Comment implements Parcelable{
         }
     };
 
-    public String getComment() {
-        return message;
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setComment(String comment) {
-        this.message = comment;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
     public User getUser() {
@@ -49,14 +59,11 @@ public class Comment implements Parcelable{
         this.user = user;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getMessage() {
+        return message;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(message);
-        parcel.writeParcelable(user, i);
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

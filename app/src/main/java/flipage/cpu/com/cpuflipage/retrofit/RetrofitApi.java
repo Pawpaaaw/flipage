@@ -2,9 +2,10 @@ package flipage.cpu.com.cpuflipage.retrofit;
 
 import java.util.List;
 
-import flipage.cpu.com.cpuflipage.data.CommentRequest;
+import flipage.cpu.com.cpuflipage.data.Comment;
 import flipage.cpu.com.cpuflipage.data.Department;
 import flipage.cpu.com.cpuflipage.data.News;
+import flipage.cpu.com.cpuflipage.data.Topic;
 import flipage.cpu.com.cpuflipage.data.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public interface RetrofitApi {
     Call<List<News>> getNews();
 
     @GET("api/user/getUser")
-    Call<User> getUser(@Query("userName") String username, @Query("password") String password);
+    Call<User> getUser(@Query("idNumber") String username, @Query("password") String password);
 
     @POST("api/user/createUser")
     Call<ResponseBody> createUser(@Body User user);
@@ -28,8 +29,8 @@ public interface RetrofitApi {
     @POST("api/user/updateUser")
     Call<User> updateUser(@Body User user);
 
-    @POST("api/news/addComment")
-    Call<ResponseBody> addComment(@Body CommentRequest request);
+    @POST("/api/topic/addComment")
+    Call<Topic> addComment(@Body Comment request);
 
     @POST("/api/news/save")
     Call<ResponseBody> createNews(@Body News news);

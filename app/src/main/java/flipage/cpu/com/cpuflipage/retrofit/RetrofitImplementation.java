@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import flipage.cpu.com.cpuflipage.data.Comment;
-import flipage.cpu.com.cpuflipage.data.CommentRequest;
 import flipage.cpu.com.cpuflipage.data.Department;
 import flipage.cpu.com.cpuflipage.data.News;
+import flipage.cpu.com.cpuflipage.data.Topic;
 import flipage.cpu.com.cpuflipage.data.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -38,12 +38,8 @@ public class RetrofitImplementation {
         api.createNews(news).enqueue(getResponseBodyCallback(callback));
     }
 
-    public void addComment(long newsId, Comment comment, flipage.cpu.com.cpuflipage.utils.Callback callback) {
-        CommentRequest request = new CommentRequest();
-        request.setNewsId(newsId);
-        request.setMessage(comment.getComment());
-        request.setUser(comment.getUser());
-        api.addComment(request).enqueue(getResponseBodyCallback(callback));
+    public void addCommentToTopic(Comment comment, flipage.cpu.com.cpuflipage.utils.Callback callback){
+        api.addComment(comment).enqueue(getTopicCallback(callback));
     }
 
     public void getNews(flipage.cpu.com.cpuflipage.utils.Callback callback) {
@@ -124,6 +120,33 @@ public class RetrofitImplementation {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                String errorDesc;
+                if (t instanceof IOException) {
+                    errorDesc = String.valueOf(t.getCause());
+                } else if (t instanceof IllegalStateException) {
+                    errorDesc = String.valueOf(t.getCause());
+                } else {
+                    errorDesc = String.valueOf(t.getLocalizedMessage());
+                }
+                callback.onError(errorDesc);
+            }
+        };
+    }
+
+    private Callback<Topic> getTopicCallback(flipage.cpu.com.cpuflipage.utils.Callback callback) {
+        return new Callback<Topic>() {
+            @Override
+            public void onResponse(Call<Topic> call, Response<Topic> response) {
+                if (callback != null)
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(response.body());
+                    } else {
+                        readError(response, callback);
+                    }
+            }
+
+            @Override
+            public void onFailure(Call<Topic> call, Throwable t) {
                 String errorDesc;
                 if (t instanceof IOException) {
                     errorDesc = String.valueOf(t.getCause());
