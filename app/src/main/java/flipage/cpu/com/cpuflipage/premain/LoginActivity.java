@@ -42,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
                     retro.getUser(uName, pass, new Callback() {
                         @Override
                         public void onSuccess(Object object) {
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             User user = (User) object;
                             if (user != null) {
                                 FlipagePrefrences.setUser(user, true);
@@ -57,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(String error) {
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             hideProgress();
                             Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_SHORT).show();
                         }

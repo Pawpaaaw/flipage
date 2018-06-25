@@ -14,7 +14,7 @@ public class User implements Parcelable {
     private String image;
     private String password;
     private String idNumber;
-    private String department;
+    private Department department;
 
     public User() {
     }
@@ -29,25 +29,7 @@ public class User implements Parcelable {
         image = in.readString();
         password = in.readString();
         idNumber = in.readString();
-        department = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeLong(version);
-        dest.writeByte((byte) (admin ? 1 : 0));
-        dest.writeString(email);
-        dest.writeString(username);
-        dest.writeString(image);
-        dest.writeString(password);
-        dest.writeString(idNumber);
-        dest.writeString(department);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        department = in.readParcelable(Department.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -61,6 +43,24 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeLong(version);
+        dest.writeByte((byte) (admin ? 1 : 0));
+        dest.writeString(email);
+        dest.writeString(username);
+        dest.writeString(image);
+        dest.writeString(password);
+        dest.writeString(idNumber);
+        dest.writeParcelable(department, flags);
+    }
 
     public long getId() {
         return id;
@@ -83,7 +83,7 @@ public class User implements Parcelable {
     }
 
     public void setAdmin(boolean admin) {
-        admin = admin;
+        this.admin = admin;
     }
 
     public String getEmail() {
@@ -126,12 +126,11 @@ public class User implements Parcelable {
         this.idNumber = idNumber;
     }
 
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
-
 }

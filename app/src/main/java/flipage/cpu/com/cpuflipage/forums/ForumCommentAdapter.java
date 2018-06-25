@@ -59,6 +59,7 @@ public class ForumCommentAdapter extends RecyclerView.Adapter<ForumCommentAdapte
                 }
             }
         }.start();
+        holder.imageView.setTag(comment.getUser());
         holder.imageView.setOnClickListener(listener);
         holder.title.setText(comment.getUser().getUsername());
         holder.message.setText(comment.getMessage());

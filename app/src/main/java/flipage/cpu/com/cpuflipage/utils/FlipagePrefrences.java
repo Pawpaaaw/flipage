@@ -3,6 +3,7 @@ package flipage.cpu.com.cpuflipage.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import flipage.cpu.com.cpuflipage.data.Department;
 import flipage.cpu.com.cpuflipage.data.User;
 
 /**
@@ -98,7 +99,9 @@ public class FlipagePrefrences {
         user.setImage(getIMAGE());
         user.setAdmin(getIsAdmin());
         user.setEmail(getEMAIL());
-        user.setDepartment(getDepartment());
+        Department department = new Department();
+        department.setName(getDepartment());
+        user.setDepartment(department);
         user.setId(getId());
         return user;
     }
@@ -111,6 +114,6 @@ public class FlipagePrefrences {
         setIsAdmin(user.isAdmin());
         setEMAIL(user.getEmail());
         setIsLoggedIn(loggedIn);
-        setDepartment(user.getDepartment());
+        setDepartment(user.getDepartment().getName());
     }
 }

@@ -1,8 +1,12 @@
 package flipage.cpu.com.cpuflipage.forums;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,6 +15,8 @@ import android.widget.TextView;
 
 import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.Topic;
+import flipage.cpu.com.cpuflipage.data.User;
+import flipage.cpu.com.cpuflipage.profile.ProfileViewActivity;
 import flipage.cpu.com.cpuflipage.utils.BitmapUtil;
 
 /**
@@ -23,6 +29,8 @@ public class ForumViewActivity extends AppCompatActivity{
     public static final String TOPIC_EXTRA = "POST_EXTRA";
     private Topic topic;
     private RecyclerView recyclerView;
+    public static User selectedUser;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +41,7 @@ public class ForumViewActivity extends AppCompatActivity{
         TextView desc = findViewById(R.id.message);
         ImageView image = findViewById(R.id.image);
         recyclerView = findViewById(R.id.comment_list);
+        fab = findViewById(R.id.fab1);
 
         title.setText(topic.getTitle());
         desc.setText(topic.getDescription());
@@ -52,6 +61,23 @@ public class ForumViewActivity extends AppCompatActivity{
             }
         }.start();
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ForumViewActivity.this);
+                View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
+                builder.setView(view);
+                builder.setTitle("Enter Comment");
+                builder.setNegativeButton("Cancel",null);
+                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -60,7 +86,8 @@ public class ForumViewActivity extends AppCompatActivity{
         ForumCommentAdapter adapter = new ForumCommentAdapter(topic.getComments(), this, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Todo create profile page for viewing
+                selectedUser = (User) v.getTag();
+                startActivity(new Intent(ForumViewActivity.this, ProfileViewActivity.class));
             }
         });
         recyclerView.setAdapter(adapter);

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -41,7 +42,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private ImageView mImage;
     private Bitmap image;
     private LinearLayout progressBar;
+    private TextView progressMessage;
     private Spinner spinner;
+    private List<Department> departments = new ArrayList<>();
     RetrofitImplementation implementation = new RetrofitImplementation();
 
     @Override
@@ -56,6 +59,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mImage = findViewById(R.id.image);
         progressBar = findViewById(R.id.progress_ll);
         spinner = findViewById(R.id.department);
+        progressMessage = findViewById(R.id.progress_text);
 
 
         findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
@@ -76,7 +80,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             Toast.makeText(RegistrationActivity.this, "Please add profile image", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        showProgress();
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        showProgress("Creating User");
                         User user = new User();
                         user.setImage(BitmapUtil.encodeToBase64(image, Bitmap.CompressFormat.PNG, 50));
                         user.setPassword(mPass.getText().toString().trim());
@@ -88,10 +94,18 @@ public class RegistrationActivity extends AppCompatActivity {
                             Toast.makeText(RegistrationActivity.this, "Can't create account. No Departments available", Toast.LENGTH_SHORT).show();
                             finish();
                         }
-                        user.setDepartment(value);
+                        if(departments != null) {
+                            for(Department department: departments){
+                                if(value.equalsIgnoreCase(department.getName())){
+                                    user.setDepartment(department);
+                                    break;
+                                }
+                            }
+                        }
                         implementation.createUser(user, new Callback() {
                             @Override
                             public void onSuccess(Object object) {
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 hideProgress();
                                 Toast.makeText(RegistrationActivity.this, "Creation successful", Toast.LENGTH_SHORT).show();
                                 onBackPressed();
@@ -99,6 +113,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             @Override
                             public void onError(String error) {
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 hideProgress();
                                 Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_SHORT).show();
                             }
@@ -111,14 +126,14 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-        showProgress();
+        showProgress("Syncing Departments");
         implementation.getDepartments(new Callback() {
             @Override
             public void onSuccess(Object object) {
-                List<Department> departmentList = (List<Department>) object;
+                departments = (List<Department>) object;
                 ArrayList<String> departmentStrings = new ArrayList<>();
-                if (departmentList != null) {
-                    for (Department department : departmentList) {
+                if (departments != null) {
+                    for (Department department : departments) {
                         departmentStrings.add(department.getName());
                     }
                 }
@@ -141,7 +156,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    private void showProgress() {
+    private void showProgress(String message) {
+        progressMessage.setText(message);
         progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);

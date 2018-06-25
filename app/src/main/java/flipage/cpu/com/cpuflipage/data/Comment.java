@@ -13,6 +13,9 @@ public class Comment implements Parcelable {
     private User user;
     private String message;
 
+    public Comment() {
+    }
+
     protected Comment(Parcel in) {
         articleId = in.readLong();
         user = in.readParcelable(User.class.getClassLoader());

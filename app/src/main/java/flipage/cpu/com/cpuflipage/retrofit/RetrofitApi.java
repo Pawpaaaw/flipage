@@ -21,6 +21,11 @@ public interface RetrofitApi {
     @GET("api/news/fetchAllNews")
     Call<List<News>> getNews();
 
+    @POST("/api/news/save")
+    Call<ResponseBody> createNews(@Body News news);
+
+
+
     @GET("api/user/getUser")
     Call<User> getUser(@Query("idNumber") String username, @Query("password") String password);
 
@@ -30,11 +35,13 @@ public interface RetrofitApi {
     @POST("api/user/updateUser")
     Call<User> updateUser(@Body User user);
 
-    @POST("/api/news/save")
-    Call<ResponseBody> createNews(@Body News news);
+
 
     @GET("/api/department/findAll")
     Call<List<Department>> getDepartments();
+
+
+
 
     @POST("/api/post/save")
     Call<ResponseBody> createPost(@Body Post post);
@@ -42,6 +49,14 @@ public interface RetrofitApi {
     @POST("/api/post/fetchAllPost")
     Call<List<Topic>> getTopics();
 
+    @POST("/api/post/addComment")
+    Call<Post> addPostComment(@Body Comment request);
+
+
+
     @POST("/api/topic/addComment")
     Call<Topic> addComment(@Body Comment request);
+
+
+
 }

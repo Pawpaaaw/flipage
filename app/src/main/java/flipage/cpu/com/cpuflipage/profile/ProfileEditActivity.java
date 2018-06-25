@@ -50,6 +50,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     private LinearLayout progressBar;
     private TextView progressText;
     private Spinner spinner;
+    private List<Department> departments = new ArrayList<>();
     RetrofitImplementation implementation = new RetrofitImplementation();
 
     @Override
@@ -82,7 +83,6 @@ public class ProfileEditActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_ll);
 
 
-
         findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +112,14 @@ public class ProfileEditActivity extends AppCompatActivity {
                             Toast.makeText(ProfileEditActivity.this, "Can't create account. No Departments available", Toast.LENGTH_SHORT).show();
                             finish();
                         }
-                        user.setDepartment(value);
+                        if (departments != null) {
+                            for (Department department : departments) {
+                                if (value.equalsIgnoreCase(department.getName())) {
+                                    user.setDepartment(department);
+                                    break;
+                                }
+                            }
+                        }
                         implementation.updateUser(user, new Callback() {
                             @Override
                             public void onSuccess(Object object) {
@@ -161,10 +168,10 @@ public class ProfileEditActivity extends AppCompatActivity {
         implementation.getDepartments(new Callback() {
             @Override
             public void onSuccess(Object object) {
-                List<Department> departmentList = (List<Department>) object;
+                departments = (List<Department>) object;
                 ArrayList<String> departmentStrings = new ArrayList<>();
-                if (departmentList != null) {
-                    for (Department department : departmentList) {
+                if (departments != null) {
+                    for (Department department : departments) {
                         if (department.equals(user.getDepartment())) {
                             departmentStrings.add(0, department.getName());
                         } else {

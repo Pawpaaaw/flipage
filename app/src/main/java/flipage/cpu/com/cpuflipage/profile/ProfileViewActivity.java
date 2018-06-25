@@ -11,22 +11,28 @@ import android.widget.TextView;
 
 import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.User;
+import flipage.cpu.com.cpuflipage.forums.ForumViewActivity;
 import flipage.cpu.com.cpuflipage.utils.BitmapUtil;
-import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
 
+/**
+ * Created by Jan Paolo Regalado on 6/25/18.
+ * jan.regalado@safesat.com.ph
+ * Sattelite GPS (GPS Tracking and Asset Management System)
+ */
+public class ProfileViewActivity extends AppCompatActivity {
 
-public class ProfileActivity extends AppCompatActivity {
+    private User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        user = ForumViewActivity.selectedUser;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        User user = FlipagePrefrences.getUser();
         ((TextView) findViewById(R.id.user_name)).setText(user.getUsername());
         ((TextView) findViewById(R.id.user_number)).setText(user.getIdNumber());
         ((TextView) findViewById(R.id.user_email)).setText(user.getEmail());
@@ -50,13 +56,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }.start();
 
-        findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, ProfileEditActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        findViewById(R.id.edit).setVisibility(View.GONE);
     }
 }

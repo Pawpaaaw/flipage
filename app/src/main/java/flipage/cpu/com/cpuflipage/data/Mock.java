@@ -27,10 +27,9 @@ public class Mock {
             User user = new User();
             user.setImage(BitmapUtil.encodeToBase64(icon, Bitmap.CompressFormat.JPEG, 100));
             comment.setUser(user);
-            comment.setComment("Wow!");
+            comment.setMessage("Wow!");
             List<Comment> comments = new ArrayList<>();
             comments.add(comment);
-            news.setComments(comments);
             newsList.add(news);
         }
         return newsList;
