@@ -59,6 +59,22 @@
             android:name=".profile.ProfileEditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".forums.ForumsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
+
+
+        <activity
+            android:name=".news.TopicsPage"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".news.TopicPage"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

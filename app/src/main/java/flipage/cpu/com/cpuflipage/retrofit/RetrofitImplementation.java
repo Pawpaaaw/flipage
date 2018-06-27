@@ -60,8 +60,8 @@ public class RetrofitImplementation {
         api.addComment(comment).enqueue(getTopicCallback(callback));
     }
 
-    public void getAllTopic(flipage.cpu.com.cpuflipage.utils.Callback callback) {
-        api.getTopics().enqueue(getTopicsCallback(callback));
+    public void getAllPosts(flipage.cpu.com.cpuflipage.utils.Callback callback) {
+        api.getPosts().enqueue(getPostsCallback(callback));
     }
 
 
@@ -133,6 +133,33 @@ public class RetrofitImplementation {
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
+                String errorDesc;
+                if (t instanceof IOException) {
+                    errorDesc = String.valueOf(t.getCause());
+                } else if (t instanceof IllegalStateException) {
+                    errorDesc = String.valueOf(t.getCause());
+                } else {
+                    errorDesc = String.valueOf(t.getLocalizedMessage());
+                }
+                callback.onError(errorDesc);
+            }
+        };
+    }
+
+    private Callback<List<Post>> getPostsCallback(flipage.cpu.com.cpuflipage.utils.Callback callback) {
+        return new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if (callback != null)
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(response.body());
+                    } else {
+                        readError(response, callback);
+                    }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
                 String errorDesc;
                 if (t instanceof IOException) {
                     errorDesc = String.valueOf(t.getCause());

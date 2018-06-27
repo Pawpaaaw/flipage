@@ -46,8 +46,8 @@ public interface RetrofitApi {
     @POST("/api/post/save")
     Call<ResponseBody> createPost(@Body Post post);
 
-    @POST("/api/post/fetchAllPost")
-    Call<List<Topic>> getTopics();
+    @GET("/api/post/fetchAllPost")
+    Call<List<Post>> getPosts();
 
     @POST("/api/post/addComment")
     Call<Post> addPostComment(@Body Comment request);

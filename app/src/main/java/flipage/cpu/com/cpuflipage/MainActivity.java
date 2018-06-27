@@ -26,6 +26,7 @@ import java.util.List;
 
 import flipage.cpu.com.cpuflipage.data.News;
 import flipage.cpu.com.cpuflipage.data.User;
+import flipage.cpu.com.cpuflipage.forums.ForumsActivity;
 import flipage.cpu.com.cpuflipage.news.NewsAdapter;
 import flipage.cpu.com.cpuflipage.premain.LoginActivity;
 import flipage.cpu.com.cpuflipage.premain.WelcomeActivity;
@@ -116,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements OnFABMenuSelected
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+
+
+
         switch (id) {
             case R.id.logout: {
                 Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
@@ -123,6 +127,10 @@ public class MainActivity extends AppCompatActivity implements OnFABMenuSelected
                 startActivity(intent);
                 finish();
                 break;
+            }
+            case R.id.forums:{
+                Intent intent = new Intent(MainActivity.this, ForumsActivity.class);
+                startActivity(intent);
             }
         }
         return super.onOptionsItemSelected(item);

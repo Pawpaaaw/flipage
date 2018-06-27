@@ -9,16 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.github.barteksc.pdfviewer.PDFView;
 
 import java.util.List;
 
 import flipage.cpu.com.cpuflipage.R;
-import flipage.cpu.com.cpuflipage.data.Topic;
-import flipage.cpu.com.cpuflipage.news.NewsAdapter;
+import flipage.cpu.com.cpuflipage.data.Post;
 import flipage.cpu.com.cpuflipage.utils.BitmapUtil;
 
 /**
@@ -26,29 +22,29 @@ import flipage.cpu.com.cpuflipage.utils.BitmapUtil;
  * jan.regalado@safesat.com.ph
  * Sattelite GPS (GPS Tracking and Asset Management System)
  */
-public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.TopicHolder> {
+public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.PostHolder> {
 
-    private List<Topic> topicList;
+    private List<Post> postList;
     private Activity activity;
     private View.OnClickListener listener;
 
-    public ForumsAdapter(List<Topic> topicList, Activity activity, View.OnClickListener listener) {
-        this.topicList = topicList;
+    public ForumsAdapter(List<Post> postList, Activity activity, View.OnClickListener listener) {
+        this.postList = postList;
         this.activity = activity;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public TopicHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.topic_row_layout, parent, false);
-        TopicHolder adapter = new TopicHolder(layout);
+    public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_row_layout, parent, false);
+        PostHolder adapter = new PostHolder(layout);
         return adapter;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TopicHolder holder, int position) {
-        Topic topic = topicList.get(position);
+    public void onBindViewHolder(@NonNull PostHolder holder, int position) {
+        Post topic = postList.get(position);
         new Thread() {
             @Override
             public void run() {
@@ -65,7 +61,9 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.TopicHolde
             }
         }.start();
         holder.title.setText(topic.getTitle());
-        holder.message.setText(topic.getDescription());
+        if(topic.getUser() != null && topic.getUser().getDepartment() != null) {
+            holder.message.setText(topic.getUser().getDepartment().getName());
+        }
         holder.layout.setTag(topic);
         holder.layout.setOnClickListener(listener);
 
@@ -76,13 +74,13 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.TopicHolde
         return 0;
     }
 
-    class TopicHolder extends RecyclerView.ViewHolder {
+    class PostHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView title;
         TextView message;
         CardView layout;
 
-        public TopicHolder(View view) {
+        public PostHolder(View view) {
             super(view);
             imageView = view.findViewById(R.id.image);
             title = view.findViewById(R.id.title);

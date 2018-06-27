@@ -1,9 +1,11 @@
 package flipage.cpu.com.cpuflipage.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,7 +24,7 @@ import flipage.cpu.com.cpuflipage.data.News;
 public class NewsPageActivity extends AppCompatActivity implements DownloadFile.Listener {
 
     public static final String NEWS_DETAIL = "NEWS_DETAIL";
-    private News news;
+    public static News news;
     private RemotePDFViewPager pdfView;
     private PDFPagerAdapter adapter;
     private Button fullScreen;
@@ -33,7 +35,7 @@ public class NewsPageActivity extends AppCompatActivity implements DownloadFile.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flipage);
 
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -42,7 +44,6 @@ public class NewsPageActivity extends AppCompatActivity implements DownloadFile.
         fullScreen = findViewById(R.id.fullscren);
         StringBuilder builder = new StringBuilder();
         builder.append(BuildConfig.API)
-                .append("/uploaded-files/")
                 .append(news.getFilePath());
         Log.w("FILEPATH", builder.toString());
 
@@ -68,10 +69,20 @@ public class NewsPageActivity extends AppCompatActivity implements DownloadFile.
                 finish();
                 break;
             }
+            case R.id.topics: {
+                Intent intent = new Intent(NewsPageActivity.this, TopicsPage.class);
+                startActivity(intent);
+            }
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_topics, menu);
+        return true;
     }
 
 
@@ -84,16 +95,18 @@ public class NewsPageActivity extends AppCompatActivity implements DownloadFile.
         layout.addView(pdfView);
     }
 
-    private void setFullscreen(boolean fullscreen)
-    {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adapter.close();
+    }
+
+    private void setFullscreen(boolean fullscreen) {
         WindowManager.LayoutParams attrs = getWindow().getAttributes();
-        if (fullscreen)
-        {
+        if (fullscreen) {
             getSupportActionBar().hide();
             attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        }
-        else
-        {
+        } else {
             getSupportActionBar().show();
             attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
         }

@@ -12,14 +12,28 @@ import java.util.List;
  */
 public class Post implements Parcelable{
     private String title;
-    private Department department;
+    private User user;
     private List<Comment> comments;
 
+    public Post() {
+    }
 
     protected Post(Parcel in) {
         title = in.readString();
-        department = in.readParcelable(Department.class.getClassLoader());
+        user = in.readParcelable(User.class.getClassLoader());
         comments = in.createTypedArrayList(Comment.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeParcelable(user, flags);
+        dest.writeTypedList(comments);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
@@ -42,12 +56,12 @@ public class Post implements Parcelable{
         this.title = title;
     }
 
-    public Department getDepartment() {
-        return department;
+    public User getUser() {
+        return user;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Comment> getComments() {
@@ -56,17 +70,5 @@ public class Post implements Parcelable{
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeParcelable(department, flags);
-        dest.writeTypedList(comments);
     }
 }
