@@ -20,7 +20,6 @@ import java.util.List;
 
 import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.Post;
-import flipage.cpu.com.cpuflipage.data.Topic;
 import flipage.cpu.com.cpuflipage.retrofit.RetrofitImplementation;
 import flipage.cpu.com.cpuflipage.utils.Callback;
 import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
@@ -79,7 +78,7 @@ public class ForumsActivity extends AppCompatActivity {
                                     progress.setVisibility(View.GONE);
                                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                     Toast.makeText(ForumsActivity.this, "Post in forum created", Toast.LENGTH_SHORT).show();
-                                    syncTopics();
+                                    syncPosts();
                                 }
 
                                 @Override
@@ -98,7 +97,7 @@ public class ForumsActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                syncTopics();
+                syncPosts();
             }
         });
     }
@@ -106,10 +105,10 @@ public class ForumsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        syncTopics();
+        syncPosts();
     }
 
-    private void syncTopics() {
+    private void syncPosts() {
         refreshLayout.setRefreshing(true);
         implementation.getAllPosts(new Callback() {
             @Override
@@ -117,7 +116,7 @@ public class ForumsActivity extends AppCompatActivity {
                 refreshLayout.setRefreshing(false);
                 List<Post> topicList = (List<Post>) object;
 
-                if (topicList == null || topicList.isEmpty()) {
+                if (topicList == null) {
                     Toast.makeText(getApplicationContext(), "No posts available", Toast.LENGTH_SHORT).show();
                 } else {
                     ForumsAdapter adapter = new ForumsAdapter(topicList, ForumsActivity.this, new View.OnClickListener() {

@@ -170,8 +170,10 @@ public class MainActivity extends AppCompatActivity implements OnFABMenuSelected
                 break;
             }
             case R.id.clear:{
-                newsAdapter.getFilter().filter(String.valueOf(0));
-                setTitle("News");
+                if(newsAdapter != null) {
+                    newsAdapter.getFilter().filter(String.valueOf(0));
+                    setTitle("News");
+                }
                 break;
             }
             case R.id.refresh: {

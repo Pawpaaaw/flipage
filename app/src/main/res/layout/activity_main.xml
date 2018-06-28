@@ -43,7 +43,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/yellow"
         app:fabSize="normal"
         app:srcCompat="@drawable/burger_menu" />
 
@@ -57,7 +57,7 @@
         app:menuDirection="up"
         app:menuRes="@menu/menu_fab"
         app:menuSize="normal"
-        app:menuTitleTextColor="@color/colorAccent"
+        app:menuTitleTextColor="@color/yellow"
         app:showOverlay="true"
         app:showTitle="true" />
 

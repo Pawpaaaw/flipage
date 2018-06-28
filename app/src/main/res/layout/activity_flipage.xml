@@ -4,12 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/pdf_ll"
+    <com.necistudio.vigerpdf.utils.ViewPagerZoomVertical
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="5dp"></LinearLayout>
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/fullscren"

@@ -37,7 +37,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/yellow"
                     android:textSize="18dp"
                     android:ellipsize="end"
                     android:maxLines="3"

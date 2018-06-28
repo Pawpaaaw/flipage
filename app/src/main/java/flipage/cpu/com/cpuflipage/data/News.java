@@ -21,6 +21,7 @@ public class News implements Parcelable {
     private String image;
     private Department department;
     private List<Topic> topics;
+    private String fileName;
 
     public News() {
     }
@@ -36,6 +37,7 @@ public class News implements Parcelable {
         department = in.readParcelable(Department.class.getClassLoader());
         topics = in.createTypedArrayList(Topic.CREATOR);
         image = in.readString();
+        fileName = in.readString();
     }
 
     @Override
@@ -49,6 +51,7 @@ public class News implements Parcelable {
         dest.writeParcelable(department, flags);
         dest.writeTypedList(topics);
         dest.writeString(image);
+        dest.writeString(fileName);
     }
 
     @Override
@@ -67,6 +70,14 @@ public class News implements Parcelable {
             return new News[size];
         }
     };
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public String getImage() {
         return image;

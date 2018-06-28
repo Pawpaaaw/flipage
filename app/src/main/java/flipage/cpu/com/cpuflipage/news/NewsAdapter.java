@@ -103,15 +103,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Holder> implem
         new Thread() {
             @Override
             public void run() {
-                Bitmap bitmap = BitmapUtil.decodeBase64(news.getImage()
-                );
-                if (bitmap != null) {
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            holder.imageView.setImageBitmap(bitmap);
-                        }
-                    });
+                if(news.getImage()!= null) {
+                    Bitmap bitmap = BitmapUtil.decodeBase64(news.getImage()
+                    );
+                    if (bitmap != null) {
+                        mContext.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                    }
                 }
 
             }

@@ -71,7 +71,7 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.PostHolder
 
     @Override
     public int getItemCount() {
-        return 0;
+        return postList.size();
     }
 
     class PostHolder extends RecyclerView.ViewHolder {
