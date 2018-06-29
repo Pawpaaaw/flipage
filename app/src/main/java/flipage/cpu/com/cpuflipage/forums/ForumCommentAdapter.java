@@ -67,7 +67,7 @@ public class ForumCommentAdapter extends RecyclerView.Adapter<ForumCommentAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        return comments.size();
     }
 
     class ForumCommentHolder extends RecyclerView.ViewHolder {

@@ -1,4 +1,4 @@
-package flipage.cpu.com.cpuflipage.forums;
+package flipage.cpu.com.cpuflipage.news;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,8 +21,13 @@ import android.widget.Toast;
 
 import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.Comment;
+import flipage.cpu.com.cpuflipage.data.News;
 import flipage.cpu.com.cpuflipage.data.Post;
+import flipage.cpu.com.cpuflipage.data.Topic;
 import flipage.cpu.com.cpuflipage.data.User;
+import flipage.cpu.com.cpuflipage.forums.ForumCommentAdapter;
+import flipage.cpu.com.cpuflipage.forums.ForumViewActivity;
+import flipage.cpu.com.cpuflipage.forums.ForumsActivity;
 import flipage.cpu.com.cpuflipage.profile.ProfileViewActivity;
 import flipage.cpu.com.cpuflipage.retrofit.RetrofitImplementation;
 import flipage.cpu.com.cpuflipage.utils.BitmapUtil;
@@ -30,14 +35,15 @@ import flipage.cpu.com.cpuflipage.utils.Callback;
 import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
 
 /**
- * Created by Jan Paolo Regalado on 6/21/18.
+ * Created by Jan Paolo Regalado on 6/27/18.
  * jan.regalado@safesat.com.ph
  * Sattelite GPS (GPS Tracking and Asset Management System)
  */
-public class ForumViewActivity extends AppCompatActivity{
+public class TopicViewActivity extends AppCompatActivity{
 
     public static final String TOPIC_EXTRA = "POST_EXTRA";
-    private Post post;
+    private Topic topic;
+    private News news;
     private RecyclerView recyclerView;
     public static User selectedUser;
     private FloatingActionButton fab;
@@ -49,43 +55,22 @@ public class ForumViewActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forum);
-        post = ForumsActivity.selected;
+        setContentView(R.layout.topic_view_layout);
+        this.topic = TopicsActivity.topicSelected;
+        this.news = NewsPageActivity.news;
         TextView title = findViewById(R.id.title);
-        TextView desc = findViewById(R.id.message);
-        ImageView image = findViewById(R.id.image);
         recyclerView = findViewById(R.id.comment_list);
         fab = findViewById(R.id.fab1);
         progress = findViewById(R.id.progress_ll);
 
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
-
-        if(post.getUser() != null && post.getUser().getDepartment() != null){
-            desc.setText(post.getUser().getDepartment().getName());
-        }
-
-        title.setText(post.getTitle());
-        new Thread() {
-            @Override
-            public void run() {
-                Bitmap bitmap = BitmapUtil.decodeBase64(post.getUser().getImage());
-                if (bitmap != null) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            image.setImageBitmap(bitmap);
-                        }
-                    });
-                }
-
-            }
-        }.start();
+        title.setText(topic.getTitle());
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ForumViewActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(TopicViewActivity.this);
                 View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
                 EditText et = view.findViewById(R.id.message);
                 builder.setView(view);
@@ -102,13 +87,13 @@ public class ForumViewActivity extends AppCompatActivity{
                         Comment comment = new Comment();
                         comment.setMessage(message);
                         comment.setUser(FlipagePrefrences.getUser());
-                        comment.setArticleId(post.getId());
+                        comment.setArticleId(topic.getId());
                         progress.setVisibility(View.VISIBLE);
-                        retrofit.addCommentToPost(comment, new Callback() {
+                        retrofit.addCommentToTopic(comment, new Callback() {
                             @Override
                             public void onSuccess(Object object) {
-                                ForumViewActivity.this.post = (Post) object;
-                                adapter = new ForumCommentAdapter(post.getComments(), ForumViewActivity.this, clickListener());
+                                TopicViewActivity.this.topic = (Topic) object;
+                                adapter = new ForumCommentAdapter(topic.getComments(), TopicViewActivity.this, clickListener());
                                 recyclerView.setAdapter(adapter);
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 progress.setVisibility(View.GONE);
@@ -116,7 +101,7 @@ public class ForumViewActivity extends AppCompatActivity{
 
                             @Override
                             public void onError(String error) {
-                                Toast.makeText(ForumViewActivity.this,error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TopicViewActivity.this,error, Toast.LENGTH_SHORT).show();
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 progress.setVisibility(View.GONE);
                             }
@@ -134,7 +119,7 @@ public class ForumViewActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        adapter = new ForumCommentAdapter(post.getComments(), this, clickListener());
+        adapter = new ForumCommentAdapter(topic.getComments(), this, clickListener());
         recyclerView.setAdapter(adapter);
     }
 
@@ -144,7 +129,7 @@ public class ForumViewActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 selectedUser = (User) v.getTag();
-                startActivity(new Intent(ForumViewActivity.this, ProfileViewActivity.class));
+                startActivity(new Intent(TopicViewActivity.this, ProfileViewActivity.class));
             }
         };
     }

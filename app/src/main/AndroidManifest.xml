@@ -67,17 +67,22 @@
 
 
         <activity
-            android:name=".news.TopicsPage"
+            android:name=".news.TopicsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
 
         <activity
-            android:name=".news.TopicPage"
+            android:name=".news.TopicViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
 
         <activity
             android:name=".forums.ForumViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".profile.ProfileViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
     </application>

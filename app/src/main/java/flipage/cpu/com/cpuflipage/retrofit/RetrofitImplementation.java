@@ -57,7 +57,7 @@ public class RetrofitImplementation {
 
 
     public void addCommentToPost(Comment comment, flipage.cpu.com.cpuflipage.utils.Callback callback) {
-        api.addComment(comment).enqueue(getTopicCallback(callback));
+        api.addPostComment(comment).enqueue(getPostCallback(callback));
     }
 
     public void getAllPosts(flipage.cpu.com.cpuflipage.utils.Callback callback) {

@@ -3,18 +3,10 @@ package flipage.cpu.com.cpuflipage.news;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.List;
 
 import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.News;
@@ -26,7 +18,7 @@ import flipage.cpu.com.cpuflipage.retrofit.RetrofitImplementation;
  * jan.regalado@safesat.com.ph
  * Sattelite GPS (GPS Tracking and Asset Management System)
  */
-public class TopicsPage extends AppCompatActivity {
+public class TopicsActivity extends AppCompatActivity {
     private News news;
     private RecyclerView recyclerView;
     private RetrofitImplementation implementation;
@@ -43,7 +35,8 @@ public class TopicsPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 topicSelected = (Topic) v.getTag();
-                Intent intent = new Intent(TopicsPage.this, TopicPage.class);
+                Intent intent = new Intent(TopicsActivity.this, TopicViewActivity.class);
+                startActivity(intent);
             }
         });
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);

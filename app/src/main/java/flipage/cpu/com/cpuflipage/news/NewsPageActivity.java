@@ -78,6 +78,8 @@ public class NewsPageActivity extends AppCompatActivity {
                 Log.e("data", "run");
                 itemData.add(data);
                 adapter.notifyDataSetChanged();
+                vigerPDF.cancle();
+                vigerPDF.cancle();
             }
 
             @Override
@@ -107,7 +109,7 @@ public class NewsPageActivity extends AppCompatActivity {
                 break;
             }
             case R.id.topics: {
-                Intent intent = new Intent(NewsPageActivity.this, TopicsPage.class);
+                Intent intent = new Intent(NewsPageActivity.this, TopicsActivity.class);
                 startActivity(intent);
             }
             default:

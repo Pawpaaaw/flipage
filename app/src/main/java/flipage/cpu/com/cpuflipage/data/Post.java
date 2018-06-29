@@ -11,6 +11,7 @@ import java.util.List;
  * Sattelite GPS (GPS Tracking and Asset Management System)
  */
 public class Post implements Parcelable{
+    private Long id;
     private String title;
     private User user;
     private List<Comment> comments;
@@ -19,6 +20,7 @@ public class Post implements Parcelable{
     }
 
     protected Post(Parcel in) {
+        id = in.readLong();
         title = in.readString();
         user = in.readParcelable(User.class.getClassLoader());
         comments = in.createTypedArrayList(Comment.CREATOR);
@@ -26,6 +28,7 @@ public class Post implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
         dest.writeString(title);
         dest.writeParcelable(user, flags);
         dest.writeTypedList(comments);
@@ -47,6 +50,14 @@ public class Post implements Parcelable{
             return new Post[size];
         }
     };
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
