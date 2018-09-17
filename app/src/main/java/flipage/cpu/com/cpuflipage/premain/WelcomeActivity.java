@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
-import flipage.cpu.com.cpuflipage.MainActivity;
+import flipage.cpu.com.cpuflipage.DepartmentActivity;
 import flipage.cpu.com.cpuflipage.R;
+import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(FlipagePrefrences.getIsLoggedIn()){
-            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, DepartmentActivity.class);
             startActivity(intent);
             finish();
         }

@@ -39,7 +39,7 @@ public class RetrofitImplementation {
         api.createNews(news).enqueue(getResponseBodyCallback(callback));
     }
 
-    public void getNewsByDeptId(String deptId,flipage.cpu.com.cpuflipage.utils.Callback callback) {
+    public void getNewsByDeptId(long deptId,flipage.cpu.com.cpuflipage.utils.Callback callback) {
         api.getNewsByDepartment(deptId).enqueue(getNewsCallback(callback));
     }
 

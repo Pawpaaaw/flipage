@@ -2,7 +2,6 @@ package flipage.cpu.com.cpuflipage.news;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,15 +20,11 @@ import android.widget.Toast;
 import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.Comment;
 import flipage.cpu.com.cpuflipage.data.News;
-import flipage.cpu.com.cpuflipage.data.Post;
 import flipage.cpu.com.cpuflipage.data.Topic;
 import flipage.cpu.com.cpuflipage.data.User;
 import flipage.cpu.com.cpuflipage.forums.ForumCommentAdapter;
-import flipage.cpu.com.cpuflipage.forums.ForumViewActivity;
-import flipage.cpu.com.cpuflipage.forums.ForumsActivity;
 import flipage.cpu.com.cpuflipage.profile.ProfileViewActivity;
 import flipage.cpu.com.cpuflipage.retrofit.RetrofitImplementation;
-import flipage.cpu.com.cpuflipage.utils.BitmapUtil;
 import flipage.cpu.com.cpuflipage.utils.Callback;
 import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
 
@@ -59,6 +53,8 @@ public class TopicViewActivity extends AppCompatActivity{
         this.topic = TopicsActivity.topicSelected;
         this.news = NewsPageActivity.news;
         TextView title = findViewById(R.id.title);
+        TextView desc = findViewById(R.id.description);
+        desc.setText(topic.getDescription());
         recyclerView = findViewById(R.id.comment_list);
         fab = findViewById(R.id.fab1);
         progress = findViewById(R.id.progress_ll);
@@ -73,6 +69,7 @@ public class TopicViewActivity extends AppCompatActivity{
                 AlertDialog.Builder builder = new AlertDialog.Builder(TopicViewActivity.this);
                 View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
                 EditText et = view.findViewById(R.id.message);
+                view.findViewById(R.id.description).setVisibility(View.GONE);
                 builder.setView(view);
                 builder.setTitle("Enter Comment");
                 builder.setNegativeButton("Cancel",null);

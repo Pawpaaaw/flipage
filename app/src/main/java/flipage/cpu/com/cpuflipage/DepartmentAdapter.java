@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -54,6 +55,8 @@ public class DepartmentAdapter  extends RecyclerView.Adapter<DepartmentAdapter.H
             }
         }.start();
         holder.title.setText(department.getName());
+        holder.cardView.setOnClickListener(onClickListener);
+        holder.cardView.setTag(department);
     }
 
     @Override
@@ -67,9 +70,11 @@ public class DepartmentAdapter  extends RecyclerView.Adapter<DepartmentAdapter.H
     public class Holder extends RecyclerView.ViewHolder{
         ImageView imageView;
         TextView title;
+        LinearLayout cardView;
 
         public Holder(View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.card);
             imageView = itemView.findViewById(R.id.department_img);
             title = itemView.findViewById(R.id.department);
         }

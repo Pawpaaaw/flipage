@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -53,10 +54,12 @@ public class ForumViewActivity extends AppCompatActivity{
         post = ForumsActivity.selected;
         TextView title = findViewById(R.id.title);
         TextView desc = findViewById(R.id.message);
+        TextView descr = findViewById(R.id.description);
         ImageView image = findViewById(R.id.image);
         recyclerView = findViewById(R.id.comment_list);
         fab = findViewById(R.id.fab1);
         progress = findViewById(R.id.progress_ll);
+        enableBackButton();
 
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
@@ -64,7 +67,7 @@ public class ForumViewActivity extends AppCompatActivity{
         if(post.getUser() != null && post.getUser().getDepartment() != null){
             desc.setText(post.getUser().getDepartment().getName());
         }
-
+        descr.setText(post.getDescription());
         title.setText(post.getTitle());
         new Thread() {
             @Override
@@ -147,5 +150,25 @@ public class ForumViewActivity extends AppCompatActivity{
                 startActivity(new Intent(ForumViewActivity.this, ProfileViewActivity.class));
             }
         };
+    }
+
+    private void enableBackButton() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

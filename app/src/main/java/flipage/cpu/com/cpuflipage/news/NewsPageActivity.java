@@ -1,7 +1,9 @@
 package flipage.cpu.com.cpuflipage.news;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -12,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-
 
 import com.necistudio.vigerpdf.VigerPDF;
 import com.necistudio.vigerpdf.adapter.VigerAdapter;
@@ -27,6 +28,9 @@ import flipage.cpu.com.cpuflipage.data.News;
 
 public class NewsPageActivity extends AppCompatActivity {
 
+    private ProgressDialog pDialog;
+
+
     public static final String NEWS_DETAIL = "NEWS_DETAIL";
     public static News news;
     private VigerAdapter adapter;
@@ -35,6 +39,7 @@ public class NewsPageActivity extends AppCompatActivity {
     private VigerPDF vigerPDF;
     private ViewPager viewPager;
     private ArrayList<Bitmap> itemData = new ArrayList<>();
+    private String filePath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class NewsPageActivity extends AppCompatActivity {
                 .append("/uploaded-files/")
                 .append(news.getFileName());
         Log.w("FILEPATH", builder.toString());
+        filePath = builder.toString();
 //
         fullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +118,13 @@ public class NewsPageActivity extends AppCompatActivity {
             case R.id.topics: {
                 Intent intent = new Intent(NewsPageActivity.this, TopicsActivity.class);
                 startActivity(intent);
+                break;
+            }
+
+            case R.id.download:{
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(filePath));
+                startActivity(browserIntent);
+                break;
             }
             default:
                 break;
@@ -124,7 +137,6 @@ public class NewsPageActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_topics, menu);
         return true;
     }
-
 
 
     @Override

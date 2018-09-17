@@ -8,4 +8,12 @@
         android:orderInCategory="100"
         android:title="Topics"
         app:showAsAction="always" />
+
+
+    <item
+        android:icon="@drawable/ic_download"
+        android:id="@+id/download"
+        android:orderInCategory="100"
+        android:title="Download"
+        app:showAsAction="always" />
 </menu>

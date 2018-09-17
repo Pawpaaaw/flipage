@@ -61,9 +61,7 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.PostHolder
             }
         }.start();
         holder.title.setText(topic.getTitle());
-        if(topic.getUser() != null && topic.getUser().getDepartment() != null) {
-            holder.message.setText(topic.getUser().getDepartment().getName());
-        }
+        holder.message.setText(topic.getDescription());
         holder.layout.setTag(topic);
         holder.layout.setOnClickListener(listener);
 

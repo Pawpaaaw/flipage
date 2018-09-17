@@ -5,14 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.Topic;
-import flipage.cpu.com.cpuflipage.forums.ForumsAdapter;
 
 /**
  * Created by Jan Paolo Regalado on 6/27/18.
@@ -44,6 +42,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.TopicHolde
         holder.textView.setText(topic.getTitle());
         holder.layout.setTag(topic);
         holder.layout.setOnClickListener(clickListener);
+        holder.desc.setText(topic.getDescription());
     }
 
     @Override
@@ -54,11 +53,13 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.TopicHolde
     class TopicHolder extends RecyclerView.ViewHolder {
 
         private TextView textView;
+        private TextView desc;
         private View layout;
 
         public TopicHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.topic_text);
+            desc = itemView.findViewById(R.id.description);
             layout = itemView;
         }
     }

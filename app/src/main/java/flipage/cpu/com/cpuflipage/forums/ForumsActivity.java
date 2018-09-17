@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -50,12 +51,14 @@ public class ForumsActivity extends AppCompatActivity {
         progress = findViewById(R.id.progress_ll);
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
+        enableBackButton();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ForumsActivity.this);
                 View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
                 EditText et = view.findViewById(R.id.message);
+                EditText desc = view.findViewById(R.id.description);
                 builder.setNegativeButton("Cancel", null);
                 builder.setTitle("Add post to forum");
                 builder.setView(view);
@@ -63,6 +66,7 @@ public class ForumsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String message = et.getText().toString().trim();
+                        String descr = desc.getText().toString().trim();
                         if (message.isEmpty()) {
                             et.setError("Field is required");
                         } else {
@@ -70,6 +74,7 @@ public class ForumsActivity extends AppCompatActivity {
                             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             Post post = new Post();
+                            post.setDescription(descr);
                             post.setTitle(message);
                             post.setUser(FlipagePrefrences.getUser());
                             implementation.createPost(post, new Callback() {
@@ -138,5 +143,25 @@ public class ForumsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void enableBackButton() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
