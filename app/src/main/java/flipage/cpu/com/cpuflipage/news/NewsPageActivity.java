@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+
 import com.necistudio.vigerpdf.VigerPDF;
 import com.necistudio.vigerpdf.adapter.VigerAdapter;
 import com.necistudio.vigerpdf.manage.OnResultListener;

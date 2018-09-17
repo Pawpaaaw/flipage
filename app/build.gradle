@@ -19,7 +19,7 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API", '"http://192.168.254.4:8095"'
+            buildConfigField "String", "API", '"http://172.16.0.101:8095/"'
         }
         release {
             minifyEnabled false
@@ -70,6 +70,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
-    implementation 'com.github.aerdy:Android-Viger_View_Pager_PDF_OpenSource:-SNAPSHOT'
     compile 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.3'
+    compile project(path: ':PDFVigerLib')
 }
