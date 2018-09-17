@@ -127,6 +127,5 @@ public class FlipagePrefrences {
         setIsAdmin(user.isAdmin());
         setEMAIL(user.getEmail());
         setIsLoggedIn(loggedIn);
-        setDepartment(user.getDepartment().getName());
     }
 }
