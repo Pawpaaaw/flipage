@@ -1,0 +1,9 @@
+com\cpu\news\controller\NewsController.class
+com\cpu\user\UserResource.class
+com\cpu\FlipageApplication.class
+com\cpu\config\FlipageResourceConfig.class
+com\cpu\department\controller\DepartmentController.class
+com\cpu\config\SecurityConfiguration.class
+com\cpu\MainController.class
+com\cpu\news\NewsResource.class
+com\cpu\department\DepartmentResource.class

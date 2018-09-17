@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/progress_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/framelauout"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimary"
+            android:indeterminateTintMode="src_atop"
+            android:max="100" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Syncing..."
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:id="@+id/profile_ll"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.6"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamorphansbdit"
+            android:text="Jessica Parker"
+            android:textColor="@color/white"
+            android:textSize="26sp" />
+
+        <EditText
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamorphansbdit"
+            android:text="Jessiieee"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <EditText
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamorphansbdit"
+            android:text="jesi@gmail.com"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <Spinner
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dreamorphansbdit"
+            android:text="jesi@gmail.com"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</RelativeLayout>

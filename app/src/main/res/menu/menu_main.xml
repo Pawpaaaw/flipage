@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="flipage.cpu.com.cpuflipage.MainActivity">
+
+    <item
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.widget.SearchView"
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Search" />
+
+    <item
+        android:id="@+id/forums"
+        android:orderInCategory="100"
+        android:title="Forum"
+        app:showAsAction="always" />
+    <item
+        android:icon="@drawable/ic_logout"
+        android:id="@+id/logout"
+        android:orderInCategory="100"
+        android:title="Logout"
+        app:showAsAction="always" />
+</menu>
