@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import flipage.cpu.com.cpuflipage.R;
@@ -84,7 +86,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Holder> implem
         new Thread() {
             @Override
             public void run() {
-                if (news.getImage() != null) {
+                if(news.getImage()!= null) {
                     Bitmap bitmap = BitmapUtil.decodeBase64(news.getImage()
                     );
                     if (bitmap != null) {
@@ -134,6 +136,32 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Holder> implem
             return 0;
         }
         return filteredList.size();
+    }
+
+    public long getFirstDateOfMonth(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
+    }
+
+    public long getLastDayOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return calendar.getTimeInMillis();
+    }
+
+    boolean isWithinRange(Date testDate, Date startDate, Date endDate) {
+        return !(testDate.before(startDate) || testDate.after(endDate));
     }
 
     public class Holder extends RecyclerView.ViewHolder {

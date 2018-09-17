@@ -32,9 +32,12 @@ public class FlipagePrefrences {
         return getPrefs().getBoolean(IS_GUEST, false);
     }
 
-
     public static boolean getIsLoggedIn() {
         return getPrefs().getBoolean(IS_LOGGED_IN, false);
+    }
+
+    public static boolean getIsAdmin() {
+        return getPrefs().getBoolean(IS_ADMIN, false);
     }
 
     public static String getUSERNAME() {
@@ -69,6 +72,10 @@ public class FlipagePrefrences {
         getPrefs().edit().putBoolean(IS_LOGGED_IN, isLoggedIn).commit();
     }
 
+    public static void setIsAdmin(boolean isAdmin) {
+        getPrefs().edit().putBoolean(IS_ADMIN, isAdmin).commit();
+    }
+
     public static void setUSERNAME(String userName) {
         getPrefs().edit().putString(USERNAME, userName).commit();
     }
@@ -98,6 +105,7 @@ public class FlipagePrefrences {
         user.setIdNumber(getIdNumber());
         user.setUsername(getUSERNAME());
         user.setImage(getIMAGE());
+        user.setAdmin(getIsAdmin());
         user.setEmail(getEMAIL());
         Department department = new Department();
         department.setName(getDepartment());
@@ -116,5 +124,9 @@ public class FlipagePrefrences {
         if(user.getDepartment() != null) {
             setDepartment(user.getDepartment().getName());
         }
+        setIsAdmin(user.isAdmin());
+        setEMAIL(user.getEmail());
+        setIsLoggedIn(loggedIn);
+        setDepartment(user.getDepartment().getName());
     }
 }

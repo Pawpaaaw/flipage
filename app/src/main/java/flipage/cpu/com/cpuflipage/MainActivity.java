@@ -1,6 +1,7 @@
 package flipage.cpu.com.cpuflipage;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +18,16 @@ import android.widget.Toast;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
+import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
+import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
+import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
+import com.hlab.fabrevealmenu.view.FABRevealMenu;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import flipage.cpu.com.cpuflipage.data.News;
@@ -91,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements OnFABMenuSelected
         return true;
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
@@ -105,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements OnFABMenuSelected
             //use the query to search your data somehow
         }
     }
-
 
     @Override
     public void onBackPressed() {
