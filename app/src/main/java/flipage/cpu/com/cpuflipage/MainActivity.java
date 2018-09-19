@@ -7,12 +7,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
 
+import br.com.liveo.searchliveo.SearchLiveo;
 import flipage.cpu.com.cpuflipage.data.News;
 import flipage.cpu.com.cpuflipage.news.NewsAdapter;
 import flipage.cpu.com.cpuflipage.premain.LoginActivity;
@@ -20,19 +20,19 @@ import flipage.cpu.com.cpuflipage.retrofit.RetrofitImplementation;
 import flipage.cpu.com.cpuflipage.utils.Callback;
 import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, SearchLiveo.OnSearchListener{
 
     private NewsAdapter newsAdapter;
     private RetrofitImplementation implementation = new RetrofitImplementation();
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipe;
+    private SearchLiveo mSearchLiveo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mSearchLiveo = findViewById(R.id.search_liveo);
         setTitle("News");
         swipe = findViewById(R.id.swipe);
         swipe.setEnabled(false);
@@ -41,6 +41,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         enableBackButton();
+
+        mSearchLiveo.with(this).
+                removeMinToSearch().
+                removeSearchDelay().
+                hideSearch(new SearchLiveo.OnHideSearchListener() {
+                    @Override
+                    public void hideSearch() {
+                        finish();
+                    }
+                }).
+                build();
+        mSearchLiveo.show();
 
     }
 
@@ -124,5 +136,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
         syncNews();
+    }
+
+    @Override
+    public void changedSearch(CharSequence charSequence) {
+        newsAdapter.getFilter().filter(charSequence);
     }
 }

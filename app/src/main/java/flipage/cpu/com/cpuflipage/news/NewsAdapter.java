@@ -44,17 +44,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Holder> implem
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                filteredList.clear();
-                String name = constraint.toString();
+                if(constraint.toString().isEmpty()){
+                    filteredList.clear();
+                    filteredList.addAll(newsList);
+                }else {
+                    filteredList.clear();
+                    String name = constraint.toString();
+                    for (News news : newsList) {
 
+                        String newsName = news.getFileName();
 
-                final FilterResults results = new FilterResults();
-
-                for (News news : newsList) {
-
-                    if (news.getFileName().equals(name))
-                        filteredList.add(news);
+                        if (newsName.toLowerCase().startsWith(name.toLowerCase()))
+                            filteredList.add(news);
+                    }
                 }
+                final FilterResults results = new FilterResults();
                 results.values = filteredList;
                 results.count = filteredList.size();
                 return results;
