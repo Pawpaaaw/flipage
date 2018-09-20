@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 
 public interface RetrofitApi {
 
-    @GET("api/news/fetchAllNews")
+    @GET("api/news/findByDepartmentId")
     Call<List<News>> getNewsByDepartment(@Query("departmentId") long departmentId);
 
     @GET("api/news/fetchAllNews")

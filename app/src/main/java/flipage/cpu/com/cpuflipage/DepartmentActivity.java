@@ -88,7 +88,7 @@ public class DepartmentActivity extends AppCompatActivity implements SwipeRefres
                 finish();
             }
         });
-        super.onBackPressed();
+        builder.show();
     }
 
     @Override
