@@ -24,6 +24,7 @@ import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.Comment;
 import flipage.cpu.com.cpuflipage.data.Post;
 import flipage.cpu.com.cpuflipage.data.User;
+import flipage.cpu.com.cpuflipage.news.TopicViewActivity;
 import flipage.cpu.com.cpuflipage.profile.ProfileViewActivity;
 import flipage.cpu.com.cpuflipage.retrofit.RetrofitImplementation;
 import flipage.cpu.com.cpuflipage.utils.BitmapUtil;
@@ -35,7 +36,7 @@ import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
  * jan.regalado@safesat.com.ph
  * Sattelite GPS (GPS Tracking and Asset Management System)
  */
-public class ForumViewActivity extends AppCompatActivity{
+public class ForumViewActivity extends AppCompatActivity {
 
     public static final String TOPIC_EXTRA = "POST_EXTRA";
     private Post post;
@@ -64,7 +65,7 @@ public class ForumViewActivity extends AppCompatActivity{
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
-        if(post.getUser() != null && post.getUser().getDepartment() != null){
+        if (post.getUser() != null && post.getUser().getDepartment() != null) {
             desc.setText(post.getUser().getDepartment().getName());
         }
         descr.setText(post.getDescription());
@@ -88,47 +89,51 @@ public class ForumViewActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ForumViewActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
-                EditText et = view.findViewById(R.id.message);
-                builder.setView(view);
-                builder.setTitle("Enter Comment");
-                builder.setNegativeButton("Cancel",null);
-                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                if (FlipagePrefrences.getIsGuest()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ForumViewActivity.this);
+                    View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
+                    EditText et = view.findViewById(R.id.message);
+                    builder.setView(view);
+                    builder.setTitle("Enter Comment");
+                    builder.setNegativeButton("Cancel", null);
+                    builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        String message = et.getText().toString().trim();
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            String message = et.getText().toString().trim();
 
-                        Comment comment = new Comment();
-                        comment.setMessage(message);
-                        comment.setUser(FlipagePrefrences.getUser());
-                        comment.setArticleId(post.getId());
-                        progress.setVisibility(View.VISIBLE);
-                        retrofit.addCommentToPost(comment, new Callback() {
-                            @Override
-                            public void onSuccess(Object object) {
-                                ForumViewActivity.this.post = (Post) object;
-                                adapter = new ForumCommentAdapter(post.getComments(), ForumViewActivity.this, clickListener());
-                                recyclerView.setAdapter(adapter);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                progress.setVisibility(View.GONE);
-                            }
+                            Comment comment = new Comment();
+                            comment.setMessage(message);
+                            comment.setUser(FlipagePrefrences.getUser());
+                            comment.setArticleId(post.getId());
+                            progress.setVisibility(View.VISIBLE);
+                            retrofit.addCommentToPost(comment, new Callback() {
+                                @Override
+                                public void onSuccess(Object object) {
+                                    ForumViewActivity.this.post = (Post) object;
+                                    adapter = new ForumCommentAdapter(post.getComments(), ForumViewActivity.this, clickListener());
+                                    recyclerView.setAdapter(adapter);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    progress.setVisibility(View.GONE);
+                                }
 
-                            @Override
-                            public void onError(String error) {
-                                Toast.makeText(ForumViewActivity.this,error, Toast.LENGTH_SHORT).show();
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                progress.setVisibility(View.GONE);
-                            }
-                        });
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(ForumViewActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    progress.setVisibility(View.GONE);
+                                }
+                            });
 
-                    }
-                });
+                        }
+                    });
 
-                builder.show();
+                    builder.show();
+                } else
+                    Toast.makeText(ForumViewActivity.this, "Please login to add comment", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -158,6 +163,7 @@ public class ForumViewActivity extends AppCompatActivity{
             getSupportActionBar().setHomeButtonEnabled(true);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

@@ -66,48 +66,52 @@ public class TopicViewActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(TopicViewActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
-                EditText et = view.findViewById(R.id.message);
-                view.findViewById(R.id.description).setVisibility(View.GONE);
-                builder.setView(view);
-                builder.setTitle("Enter Comment");
-                builder.setNegativeButton("Cancel",null);
-                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                if (FlipagePrefrences.getIsGuest()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TopicViewActivity.this);
+                    View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
+                    EditText et = view.findViewById(R.id.message);
+                    view.findViewById(R.id.description).setVisibility(View.GONE);
+                    builder.setView(view);
+                    builder.setTitle("Enter Comment");
+                    builder.setNegativeButton("Cancel", null);
+                    builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        String message = et.getText().toString().trim();
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            String message = et.getText().toString().trim();
 
-                        Comment comment = new Comment();
-                        comment.setMessage(message);
-                        comment.setUser(FlipagePrefrences.getUser());
-                        comment.setArticleId(topic.getId());
-                        progress.setVisibility(View.VISIBLE);
-                        retrofit.addCommentToTopic(comment, new Callback() {
-                            @Override
-                            public void onSuccess(Object object) {
-                                TopicViewActivity.this.topic = (Topic) object;
-                                adapter = new ForumCommentAdapter(topic.getComments(), TopicViewActivity.this, clickListener());
-                                recyclerView.setAdapter(adapter);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                progress.setVisibility(View.GONE);
-                            }
+                            Comment comment = new Comment();
+                            comment.setMessage(message);
+                            comment.setUser(FlipagePrefrences.getUser());
+                            comment.setArticleId(topic.getId());
+                            progress.setVisibility(View.VISIBLE);
+                            retrofit.addCommentToTopic(comment, new Callback() {
+                                @Override
+                                public void onSuccess(Object object) {
+                                    TopicViewActivity.this.topic = (Topic) object;
+                                    adapter = new ForumCommentAdapter(topic.getComments(), TopicViewActivity.this, clickListener());
+                                    recyclerView.setAdapter(adapter);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    progress.setVisibility(View.GONE);
+                                }
 
-                            @Override
-                            public void onError(String error) {
-                                Toast.makeText(TopicViewActivity.this,error, Toast.LENGTH_SHORT).show();
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                progress.setVisibility(View.GONE);
-                            }
-                        });
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(TopicViewActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    progress.setVisibility(View.GONE);
+                                }
+                            });
 
-                    }
-                });
+                        }
+                    });
 
-                builder.show();
+                    builder.show();
+                }else {
+                    Toast.makeText(TopicViewActivity.this, "Please login to add comment", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

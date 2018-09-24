@@ -21,6 +21,7 @@ import java.util.List;
 
 import flipage.cpu.com.cpuflipage.R;
 import flipage.cpu.com.cpuflipage.data.Post;
+import flipage.cpu.com.cpuflipage.news.TopicViewActivity;
 import flipage.cpu.com.cpuflipage.retrofit.RetrofitImplementation;
 import flipage.cpu.com.cpuflipage.utils.Callback;
 import flipage.cpu.com.cpuflipage.utils.FlipagePrefrences;
@@ -55,48 +56,51 @@ public class ForumsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ForumsActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
-                EditText et = view.findViewById(R.id.message);
-                EditText desc = view.findViewById(R.id.description);
-                builder.setNegativeButton("Cancel", null);
-                builder.setTitle("Add post to forum");
-                builder.setView(view);
-                builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String message = et.getText().toString().trim();
-                        String descr = desc.getText().toString().trim();
-                        if (message.isEmpty()) {
-                            et.setError("Field is required");
-                        } else {
-                            progress.setVisibility(View.VISIBLE);
-                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            Post post = new Post();
-                            post.setDescription(descr);
-                            post.setTitle(message);
-                            post.setUser(FlipagePrefrences.getUser());
-                            implementation.createPost(post, new Callback() {
-                                @Override
-                                public void onSuccess(Object object) {
-                                    progress.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    Toast.makeText(ForumsActivity.this, "Post in forum created", Toast.LENGTH_SHORT).show();
-                                    syncPosts();
-                                }
+                if (FlipagePrefrences.getIsGuest()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ForumsActivity.this);
+                    View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
+                    EditText et = view.findViewById(R.id.message);
+                    EditText desc = view.findViewById(R.id.description);
+                    builder.setNegativeButton("Cancel", null);
+                    builder.setTitle("Add post to forum");
+                    builder.setView(view);
+                    builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String message = et.getText().toString().trim();
+                            String descr = desc.getText().toString().trim();
+                            if (message.isEmpty()) {
+                                et.setError("Field is required");
+                            } else {
+                                progress.setVisibility(View.VISIBLE);
+                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                Post post = new Post();
+                                post.setDescription(descr);
+                                post.setTitle(message);
+                                post.setUser(FlipagePrefrences.getUser());
+                                implementation.createPost(post, new Callback() {
+                                    @Override
+                                    public void onSuccess(Object object) {
+                                        progress.setVisibility(View.GONE);
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                        Toast.makeText(ForumsActivity.this, "Post in forum created", Toast.LENGTH_SHORT).show();
+                                        syncPosts();
+                                    }
 
-                                @Override
-                                public void onError(String error) {
-                                    progress.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    Toast.makeText(ForumsActivity.this, error, Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                    @Override
+                                    public void onError(String error) {
+                                        progress.setVisibility(View.GONE);
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                        Toast.makeText(ForumsActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
-                    }
-                });
-                builder.show();
+                    });
+                    builder.show();
+                } else
+                    Toast.makeText(ForumsActivity.this, "Please login to add comment", Toast.LENGTH_SHORT).show();
             }
         });
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -151,6 +155,7 @@ public class ForumsActivity extends AppCompatActivity {
             getSupportActionBar().setHomeButtonEnabled(true);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

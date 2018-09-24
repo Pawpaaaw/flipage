@@ -126,8 +126,10 @@ public class DepartmentActivity extends AppCompatActivity implements SwipeRefres
                 break;
             }
             case R.id.user: {
-                Intent intent = new Intent(DepartmentActivity.this, ProfileActivity.class);
-                startActivity(intent);
+                if(FlipagePrefrences.getIsGuest()) {
+                    Intent intent = new Intent(DepartmentActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                }
                 break;
             }
         }
