@@ -92,6 +92,7 @@ public class ForumViewActivity extends AppCompatActivity {
                 if (FlipagePrefrences.getIsGuest()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ForumViewActivity.this);
                     View view = getLayoutInflater().inflate(R.layout.layout_edittext, null);
+                    view.findViewById(R.id.description).setVisibility(View.GONE);
                     EditText et = view.findViewById(R.id.message);
                     builder.setView(view);
                     builder.setTitle("Enter Comment");
