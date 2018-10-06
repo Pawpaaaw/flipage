@@ -49,10 +49,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Holder> implem
                     filteredList.addAll(newsList);
                 }else {
                     filteredList.clear();
-                    String name = constraint.toString();
+                    String name = constraint.toString().trim();
                     for (News news : newsList) {
 
-                        String newsName = news.getFileName();
+                        String newsName = news.getTitle();
 
                         if (newsName.toLowerCase().startsWith(name.toLowerCase()))
                             filteredList.add(news);
