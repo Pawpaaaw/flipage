@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -41,18 +42,25 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         enableBackButton();
-
         mSearchLiveo.with(this).
                 removeMinToSearch().
                 removeSearchDelay().
-                hideSearch(new SearchLiveo.OnHideSearchListener() {
-                    @Override
-                    public void hideSearch() {
-                        finish();
-                    }
-                }).
                 build();
         mSearchLiveo.show();
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSearchLiveo.show();
+            }
+        });
 
     }
 
