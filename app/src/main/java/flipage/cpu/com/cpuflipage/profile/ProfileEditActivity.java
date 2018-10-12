@@ -103,6 +103,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                     if (isEmailValid(email)) {
                         showProgress();
                         User user = new User();
+                        user.setId(FlipagePrefrences.getId());
                         user.setImage(BitmapUtil.encodeToBase64(image, Bitmap.CompressFormat.PNG, 50));
                         user.setEmail(mEmail.getText().toString().trim());
                         user.setUsername(mUserName.getText().toString().trim());
