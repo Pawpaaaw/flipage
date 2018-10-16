@@ -120,7 +120,7 @@ public class FlipagePrefrences {
         setUSERNAME(user.getUsername());
         setIMAGE(user.getImage());
         setEMAIL(user.getEmail());
-        setIsLoggedIn(loggedIn);
+        setIsGuest(loggedIn);
         if(user.getDepartment() != null) {
             setDepartment(user.getDepartment().getName());
         }

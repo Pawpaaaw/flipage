@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_user"
         android:id="@+id/user"
         android:orderInCategory="100"
-        android:title="Forum"
+        android:title="Profile"
         app:showAsAction="always" />
 
     <item

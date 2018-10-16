@@ -85,7 +85,13 @@ public class DepartmentActivity extends AppCompatActivity implements SwipeRefres
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
+                if(!FlipagePrefrences.getIsGuest()){
+                    Intent intent = new Intent(DepartmentActivity.this, WelcomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    finish();
+                }
             }
         });
         builder.show();
