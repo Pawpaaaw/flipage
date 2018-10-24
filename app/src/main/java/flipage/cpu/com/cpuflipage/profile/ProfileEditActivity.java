@@ -124,6 +124,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                         implementation.updateUser(user, new Callback() {
                             @Override
                             public void onSuccess(Object object) {
+                                FlipagePrefrences.setUser((User) object, true);
                                 hideProgress();
                                 Toast.makeText(ProfileEditActivity.this, "Creation successful", Toast.LENGTH_SHORT).show();
                                 onBackPressed();

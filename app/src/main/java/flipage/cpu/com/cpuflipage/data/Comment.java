@@ -12,6 +12,7 @@ public class Comment implements Parcelable {
     private long articleId;
     private User user;
     private String message;
+    private boolean active = false;
 
     public Comment() {
     }
@@ -45,6 +46,14 @@ public class Comment implements Parcelable {
             return new Comment[size];
         }
     };
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public long getArticleId() {
         return articleId;

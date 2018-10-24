@@ -19,7 +19,7 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API", '"http://172.16.0.101:8095/"'
+            buildConfigField "String", "API", '"http://172.16.0.101:8095"'
         }
         release {
             minifyEnabled false
