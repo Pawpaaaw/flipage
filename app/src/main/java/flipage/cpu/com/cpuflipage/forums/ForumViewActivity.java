@@ -113,9 +113,6 @@ public class ForumViewActivity extends AppCompatActivity {
                             retrofit.addCommentToPost(comment, new Callback() {
                                 @Override
                                 public void onSuccess(Object object) {
-                                    ForumViewActivity.this.post = (Post) object;
-                                    adapter = new ForumCommentAdapter(post.getComments(), ForumViewActivity.this, clickListener());
-                                    recyclerView.setAdapter(adapter);
                                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                     progress.setVisibility(View.GONE);
                                 }
